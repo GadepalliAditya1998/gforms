@@ -48,11 +48,13 @@ class FormStateModel extends ChangeNotifier {
   }
 
   void setFormThemeColor(Color color) {
-    this._formThemeConfigurationStateModel.setFormThemeColor(color.value.toRadixString(16)); // Convert to hex
+    this._formThemeConfigurationStateModel.setFormThemeColor('0xFF${color.value.toRadixString(16)}'); // Convert to hex
+    notifyListeners();
   }
 
   void setFormBackgroundColor(Color color) {
-    this._formThemeConfigurationStateModel.setFormThemeColor(color.value.toRadixString(16)); // Convert to hex
+    this._formThemeConfigurationStateModel.setFormBackgroundColor('0xFF${color.value.toRadixString(16)}'); // Convert to hex
+    notifyListeners();
   }
 
   int get uId {

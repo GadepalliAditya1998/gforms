@@ -18,6 +18,7 @@ class SettingsStateModel extends ChangeNotifier {
   }
 
   void setFormBackgroundColor(Color color) {
+    this._formStateModel.setFormBackgroundColor(color);
     notifyListeners();
   }
 
@@ -38,6 +39,9 @@ class SettingsStateModel extends ChangeNotifier {
   Color get themeColor => ColorExtensions.fromString(this._formStateModel.formThemeConfiguration.themeColor);
 
   bool isCurrentColor(Color color) {
+    print("IsCurentColor");
+    print(color);
+    print(this.formBackgroundColor);
     return this.formBackgroundColor == color;
   }
 }

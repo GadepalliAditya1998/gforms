@@ -37,7 +37,7 @@ class ThemeOptionsPalette extends StatelessWidget {
                       child: ColorPaletteMenu(
                         colorList: AppTheme.themeColors,
                         selectedColor: formSettingsPalette.formBackgroundColor,
-                        onTap: formSettingsPalette.setFormBackgroundColor,
+                        onTap: formSettingsPalette.setThemeColor,
                       )),
                   ThemePaletteMenuItem(
                       title: 'Background color',

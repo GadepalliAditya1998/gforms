@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gforms/extensions/color_extensions.dart';
 import 'package:gforms/models/state_models/settings_state.dart';
 import 'package:gforms/styles/app_theme.dart';
 import 'package:gforms/widgets/add_form_field_toolbar.dart';
@@ -45,11 +44,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Selector<FormStateModel, String>(
-      selector: (context, formStateModel) => formStateModel.formThemeConfiguration.backgroundColor,
+    return Selector<SettingsStateModel, Color>(
+      selector: (context, settingsStateModel) => settingsStateModel.formBackgroundColor,
       child: _child,
       builder: (context, backgroundColor, child) => Scaffold(
-        backgroundColor: ColorExtensions.fromString(backgroundColor),
+        backgroundColor: backgroundColor,
         appBar: AppBar(
           title: Text(widget.title),
           actions: [
