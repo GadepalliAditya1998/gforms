@@ -23,29 +23,30 @@ class _FormTitleState extends State<FormTitle> with FormWidgetMixin {
       borderRadius: roundedCorners,
       child: Container(
         decoration: BoxDecoration(
-          border: Border(left: activeBorderSide),
-        ),
+            border: Border(
+                left: activeBorderSide,
+                top: BorderSide(color: Colors.teal, width: 8))),
         child: Card(
+          elevation: 4,
           margin: EdgeInsets.zero,
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 22),
+            padding: cardPadding,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
+                  style: TextStyle(fontSize: 32),
                   onTap: () {
                     titleController.selection = TextSelection(
                         baseOffset: 0,
                         extentOffset: titleController.text.length);
                   },
                   controller: titleController,
-                  
-                  decoration:
-                      InputDecoration(
-
-                      ),
+                  decoration: InputDecoration(),
                 ),
-                TextFormField()
+                TextFormField(
+                    style: TextStyle(fontSize: 14),
+                    decoration: InputDecoration(hintText: 'Form description'))
               ],
             ),
           ),

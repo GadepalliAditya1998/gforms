@@ -64,9 +64,9 @@ flutter:
     - family: GoogleSans
       fonts:
         - asset: assets/fonts/GoogleSans-Regular.ttf
-        - asset: fonts/GoogleSans-Italic.ttf
+        - asset: assets/fonts/GoogleSans-Italic.ttf
           style: italic
-        - asset: fonts/GoogleSans/GoogleSans-Bold.ttf
+        - asset: assets/fonts/GoogleSans-Bold.ttf
           weight: 700
   #   - family: Trajan Pro
   #     fonts:
