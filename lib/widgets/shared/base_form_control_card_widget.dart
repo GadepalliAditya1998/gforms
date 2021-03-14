@@ -20,7 +20,6 @@ class BaseFormWidget extends StatelessWidget {
           child: Consumer<FormStateModel>(
             child: child,
             builder: (context, formStateModel, child) {
-              print(formStateModel.formThemeConfiguration.themeColor);
               return GestureDetector(
                 onTap: () => formStateModel.setActiveFormElement(id),
                 child: Container(

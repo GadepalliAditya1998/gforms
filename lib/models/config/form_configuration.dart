@@ -28,5 +28,8 @@ class FormConfiguration {
     this.submittedOn,
     this.formThemeConfiguration,
     this.isConfigMode,
-  });
+  }) {
+    this.fieldsConfiguration = this.fieldsConfiguration ?? [];
+    this.formThemeConfiguration = this.formThemeConfiguration ?? FormThemeConfiguration();
+  }
 }

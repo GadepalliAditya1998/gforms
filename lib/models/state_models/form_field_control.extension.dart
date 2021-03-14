@@ -16,8 +16,22 @@ class _FormFieldControlConfigurationStateModel {
   void cloneFormControl(int uid, int id) {
     var formElement = this._formFieldsConfigurations.firstWhere((element) => element.id == id, orElse: () => null);
     if (formElement != null) {
-      formElement.id = uid;
-      this._formFieldsConfigurations.add(formElement);
+      this._formFieldsConfigurations.add(formElement.copyWith());
+      this._formFieldsConfigurations.last.id = uid;
+    }
+  }
+
+  void setFormControlTitle(int id, String questionTitle) {
+    var formElement = this._formFieldsConfigurations.firstWhere((element) => element.id == id, orElse: () => null);
+    if (formElement != null) {
+      formElement.fieldName = questionTitle;
+    }
+  }
+
+  void setFormControlRequired(int id, bool isRequired) {
+    var formElement = this._formFieldsConfigurations.firstWhere((element) => element.id == id, orElse: () => null);
+    if (formElement != null) {
+      formElement.isRequired = isRequired;
     }
   }
 }

@@ -17,8 +17,9 @@ class FormStateModel extends ChangeNotifier {
 
   FormStateModel({FormConfiguration config, bool isConfigMode = true}) {
     this._formConfiguration = config ?? FormConfiguration(formThemeConfiguration: FormThemeConfiguration());
+
     this._fieldControlConfigurationStateModel = _FormFieldControlConfigurationStateModel(this._formConfiguration.fieldsConfiguration);
-    this._formThemeConfigurationStateModel = _FormThemeConfigurationStateModel(this._formConfiguration.formThemeConfiguration);
+    this._formThemeConfigurationStateModel = _FormThemeConfigurationStateModel(this._formConfiguration.formThemeConfiguration ?? FormThemeConfiguration());
     this._isConfigMode = isConfigMode;
   }
 
@@ -33,11 +34,14 @@ class FormStateModel extends ChangeNotifier {
   }
 
   void addFormControl(FormFieldConfiguration config) {
+    config.id = this.uId;
+    print("Add " + config.id.toString());
     this._fieldControlConfigurationStateModel.addFormControl(config);
     notifyListeners();
   }
 
   void cloneFormControl(int id) {
+    print("Clone: " + id.toString());
     this._fieldControlConfigurationStateModel.cloneFormControl(this.uId, id);
     notifyListeners();
   }
@@ -45,6 +49,15 @@ class FormStateModel extends ChangeNotifier {
   void deleteFormControl(int id) {
     this._fieldControlConfigurationStateModel.deleteFormControl(id);
     notifyListeners();
+  }
+
+  void setFormControlRequired(int id, bool isRequired) {
+    this._fieldControlConfigurationStateModel.setFormControlRequired(id, isRequired);
+    notifyListeners();
+  }
+
+  void setQuestionTitle(int id, String questionTitle) {
+    this._fieldControlConfigurationStateModel.setFormControlTitle(id, questionTitle);
   }
 
   void setFormThemeColor(Color color) {

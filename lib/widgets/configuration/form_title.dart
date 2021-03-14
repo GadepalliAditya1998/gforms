@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gforms/widgets/base_form_widget.dart';
-import 'package:gforms/widgets/form_widget_mixin.dart';
+import 'package:gforms/widgets/shared/base_form_control_card_widget.dart';
 
 class FormTitle extends StatefulWidget {
   final int id;
@@ -10,7 +9,7 @@ class FormTitle extends StatefulWidget {
   _FormTitleState createState() => _FormTitleState();
 }
 
-class _FormTitleState extends State<FormTitle> with FormWidgetMixin {
+class _FormTitleState extends State<FormTitle> {
   TextEditingController titleController;
 
   @override

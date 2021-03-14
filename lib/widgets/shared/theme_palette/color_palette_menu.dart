@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gforms/widgets/theme_palette/color_palette_menu_item.dart';
+
+import 'color_palette_menu_item.dart';
 
 class ColorPaletteMenu extends StatelessWidget {
   final List<Color> colorList;

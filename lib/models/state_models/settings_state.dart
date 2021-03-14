@@ -39,9 +39,6 @@ class SettingsStateModel extends ChangeNotifier {
   Color get themeColor => ColorExtensions.fromString(this._formStateModel.formThemeConfiguration.themeColor);
 
   bool isCurrentColor(Color color) {
-    print("IsCurentColor");
-    print(color);
-    print(this.formBackgroundColor);
     return this.formBackgroundColor == color;
   }
 }

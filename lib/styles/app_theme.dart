@@ -13,6 +13,7 @@ class AppTheme {
 
   static TextTheme get _textTheme {
     return TextTheme(
+      headline1: TextStyle(fontSize: 32, fontWeight: FontWeight.w600),
       headline6: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
       subtitle1: TextStyle(fontSize: 14),
       subtitle2: TextStyle(fontSize: 12),

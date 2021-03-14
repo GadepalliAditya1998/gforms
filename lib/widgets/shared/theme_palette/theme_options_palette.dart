@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gforms/models/state_models/settings_state.dart';
 import 'package:gforms/styles/app_theme.dart';
-import 'package:gforms/widgets/theme_palette/color_palette_menu.dart';
 import 'package:provider/provider.dart';
+
+import 'color_palette_menu.dart';
 
 class ThemeOptionsPalette extends StatelessWidget {
   const ThemeOptionsPalette({Key key}) : super(key: key);
@@ -32,14 +33,14 @@ class ThemeOptionsPalette extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ThemePaletteMenuItem(
+                  _ThemePaletteMenuItem(
                       title: 'Theme color',
                       child: ColorPaletteMenu(
                         colorList: AppTheme.themeColors,
                         selectedColor: formSettingsPalette.formBackgroundColor,
                         onTap: formSettingsPalette.setThemeColor,
                       )),
-                  ThemePaletteMenuItem(
+                  _ThemePaletteMenuItem(
                       title: 'Background color',
                       child: ColorPaletteMenu(
                         colorList: AppTheme.backgroundColors,
@@ -54,11 +55,11 @@ class ThemeOptionsPalette extends StatelessWidget {
   }
 }
 
-class ThemePaletteMenuItem extends StatelessWidget {
+class _ThemePaletteMenuItem extends StatelessWidget {
   final Widget child;
   final String title;
 
-  ThemePaletteMenuItem({Key key, this.title, this.child}) : super(key: key);
+  _ThemePaletteMenuItem({Key key, this.title, this.child}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
