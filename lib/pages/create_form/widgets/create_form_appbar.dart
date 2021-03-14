@@ -32,7 +32,7 @@ class CreateFormAppBar extends PreferredSize {
   }
 
   void _previewForm() {
-    html.window.open('https://www.google.com', 'Google');
+    html.window.open('http://localhost:59369/#preview', '_blank');
   }
 
   @override
