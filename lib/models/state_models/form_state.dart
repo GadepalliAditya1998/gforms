@@ -7,20 +7,26 @@ part 'form_field_control.extension.dart';
 part 'form_theme_control.extension.dart';
 
 class FormStateModel extends ChangeNotifier {
-  static int _uniqueId = -1;
+  static int _uniqueId = 0;
   int activeFormElementId;
   bool _isConfigMode;
-  FormConfiguration _formConfiguration;
+  FormConfiguration formConfiguration;
 
   _FormThemeConfigurationStateModel _formThemeConfigurationStateModel;
   _FormFieldControlConfigurationStateModel _fieldControlConfigurationStateModel;
 
-  FormStateModel({FormConfiguration config, bool isConfigMode = true}) {
-    this._formConfiguration = config ?? FormConfiguration(formThemeConfiguration: FormThemeConfiguration());
+  FormStateModel.initNewForm() {
+    this.formConfiguration = FormConfiguration.init();
+    this._fieldControlConfigurationStateModel = _FormFieldControlConfigurationStateModel(this.formConfiguration.fieldsConfiguration);
+    this._formThemeConfigurationStateModel = _FormThemeConfigurationStateModel(this.formConfiguration.formThemeConfiguration);
+    this._isConfigMode = true;
+  }
 
-    this._fieldControlConfigurationStateModel = _FormFieldControlConfigurationStateModel(this._formConfiguration.fieldsConfiguration);
-    this._formThemeConfigurationStateModel = _FormThemeConfigurationStateModel(this._formConfiguration.formThemeConfiguration ?? FormThemeConfiguration());
-    this._isConfigMode = isConfigMode;
+  FormStateModel.buildForm(FormConfiguration config) {
+    this.formConfiguration = config;
+    this._fieldControlConfigurationStateModel = _FormFieldControlConfigurationStateModel(this.formConfiguration.fieldsConfiguration);
+    this._formThemeConfigurationStateModel = _FormThemeConfigurationStateModel(this.formConfiguration.formThemeConfiguration);
+    this._isConfigMode = false;
   }
 
   void setActiveFormElement(int id) {
@@ -70,6 +76,10 @@ class FormStateModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  FormConfiguration saveFormConfiguration() {
+    return this.formConfiguration;
+  }
+
   int get uId {
     _uniqueId++;
     return _uniqueId;
@@ -77,7 +87,7 @@ class FormStateModel extends ChangeNotifier {
 
   bool get isConfigMode => this._isConfigMode;
 
-  List<FormFieldConfiguration> get formFieldConfiguration => this._formConfiguration.fieldsConfiguration;
+  List<FormFieldConfiguration> get formFieldConfiguration => this.formConfiguration.fieldsConfiguration;
 
-  FormThemeConfiguration get formThemeConfiguration => this._formConfiguration.formThemeConfiguration;
+  FormThemeConfiguration get formThemeConfiguration => this.formConfiguration.formThemeConfiguration;
 }

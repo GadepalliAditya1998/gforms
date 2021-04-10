@@ -1,10 +1,15 @@
 import 'package:gforms/models/config/multi_options.dart';
 import 'package:gforms/models/state_models/enums.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'field_configuration.g.dart';
+
+@JsonSerializable(explicitToJson: true, createToJson: true)
 class FormFieldConfiguration {
   int id;
   String fieldName;
   String description;
+  @JsonKey(fromJson: convertIntToEnum, toJson: convertEnumToInt)
   FormFieldType fieldType;
   List<MultiOptions> options;
   int position;
@@ -48,5 +53,16 @@ class FormFieldConfiguration {
       fieldResponse: fieldResponse ?? this.fieldResponse,
       responsedAt: responsedAt ?? this.responsedAt,
     );
+  }
+
+  factory FormFieldConfiguration.fromJson(Map<String, dynamic> json) => _$FormFieldConfigurationFromJson(json);
+  Map<String, dynamic> toJson() => _$FormFieldConfigurationToJson(this);
+
+  static int convertEnumToInt(FormFieldType formFieldType) {
+    return FormFieldType.values.indexOf(formFieldType);
+  }
+
+  static FormFieldType convertIntToEnum(int formFieldType) {
+    return FormFieldType.values[formFieldType];
   }
 }

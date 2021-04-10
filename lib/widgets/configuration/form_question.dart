@@ -5,6 +5,7 @@ import 'package:gforms/models/state_models/form_state.dart';
 import 'package:gforms/widgets/shared/base_form_control_card_widget.dart';
 import 'package:gforms/widgets/shared/drag_handle.dart';
 import 'package:gforms/widgets/configuration/form_field_type_dropdown.dart';
+import 'package:gforms/widgets/shared/validators/validators.dart';
 import 'package:provider/provider.dart';
 
 import 'form_controls/multiple_checkbox_choice.dart';
@@ -45,6 +46,7 @@ class _FormQuestionFieldState extends State<FormQuestionField> {
           Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Flexible(
                   flex: 2,
@@ -53,6 +55,8 @@ class _FormQuestionFieldState extends State<FormQuestionField> {
                     style: TextStyle(fontSize: 14),
                     initialValue: config.fieldName,
                     onChanged: (val) => formStateModel.setQuestionTitle(widget.id, val),
+                    validator: (value) => validateIfEmpty(value, message: 'Question is required'),
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                   )),
               SizedBox(width: 10),
               Visibility(
@@ -106,7 +110,7 @@ class _FormQuestionFieldState extends State<FormQuestionField> {
       case FormFieldType.shortAnswer:
         return TextFormField(maxLines: 2, decoration: InputDecoration(hintText: 'Enter answer', focusedBorder: UnderlineInputBorder(borderSide: focusedBorder)), readOnly: true);
       case FormFieldType.paragraph:
-        return TextFormField(maxLines: null, minLines: 5, decoration: InputDecoration(hintText: 'Enter answer', focusedBorder: UnderlineInputBorder(borderSide: focusedBorder)));
+        return TextFormField(maxLines: null, minLines: 5, decoration: InputDecoration(hintText: 'Enter answer', focusedBorder: UnderlineInputBorder(borderSide: focusedBorder)), readOnly: true);
       case FormFieldType.checkboxes:
         var formStateModel = Provider.of<FormStateModel>(context, listen: false);
         return MultipleCheckboxChoiceFormControl(
@@ -137,6 +141,7 @@ class _FormQuestionFieldState extends State<FormQuestionField> {
       case FormFieldType.radios:
         var formStateModel = Provider.of<FormStateModel>(context, listen: false);
         return MultipleChoiceFormControl(
+          key: UniqueKey(),
           options: formFieldConfiguration.options,
           onAddOption: (option) {
             var element = formStateModel.formFieldConfiguration.firstWhere((element) => element.id == widget.id, orElse: () => null);

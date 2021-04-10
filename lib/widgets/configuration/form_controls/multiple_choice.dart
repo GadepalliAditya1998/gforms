@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:gforms/extensions/theme_extensions.dart';
 import 'package:gforms/models/config/multi_options.dart';
+import 'package:gforms/models/state_models/form_state.dart';
+import 'package:gforms/widgets/shared/validators/validators.dart';
+import 'package:provider/provider.dart';
 
 class MultipleChoiceFormControl extends StatefulWidget {
   final List<MultiOptions> options;
@@ -35,7 +38,10 @@ class _MultipleChoiceFormControlState extends State<MultipleChoiceFormControl> {
   }
 
   List<Widget> get _optionsList {
-    var options = widget.options.map((option) => this._getOptionTile(option)).toList();
+    var options = widget.options.map((option) {
+      this.textControllers.putIfAbsent(option.id, () => TextEditingController(text: option.name));
+      return this._getOptionTile(option);
+    }).toList();
     options.add(this._addOtherOptionWidget);
     return options;
   }
@@ -61,13 +67,18 @@ class _MultipleChoiceFormControlState extends State<MultipleChoiceFormControl> {
                 ),
                 Flexible(
                   child: TextFormField(
-                    decoration: InputDecoration(
-                        hintText: 'Option', contentPadding: EdgeInsets.fromLTRB(0, 12, 0, 8), focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).primaryColor))),
+                    controller: this.textControllers[option.id],
+                    decoration: InputDecoration(hintText: 'Option', contentPadding: EdgeInsets.fromLTRB(0, 12, 0, 8), focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).primaryColor))),
                     style: Theme.of(context).textTheme.subtitle2,
                     onChanged: (String value) {
                       if (widget.onTitleUpdated != null) {
-                        // widget.onTitleUpdated(option.id, value);
+                        widget.onTitleUpdated(option.id, value);
                       }
+                    },
+                    validator: (value) => validateIfEmpty(value),
+                    onSaved: (value) {
+                      var formConfig = Provider.of<FormStateModel>(context, listen: false).formConfiguration;
+                      formConfig.fieldsConfiguration.firstWhere((element) => element.id == option.id, orElse: () => null)?.fieldName = value;
                     },
                   ),
                 ),
@@ -85,14 +96,10 @@ class _MultipleChoiceFormControlState extends State<MultipleChoiceFormControl> {
     var newOption = MultiOptions(id: id, value: '$id');
     this.textControllers.putIfAbsent(id, () => TextEditingController());
     setState(() => widget.options.add(newOption));
-    // if (widget.onAddOption != null) widget.onAddOption(newOption);
   }
 
   void _removeOption(int id) {
     setState(() => widget.options.removeWhere((option) => option.id == id));
-    if (widget.onRemoveOption != null) {
-      // widget.onRemoveOption(id);
-    }
   }
 
   Widget get _addOtherOptionWidget {

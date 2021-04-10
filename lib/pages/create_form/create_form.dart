@@ -19,6 +19,7 @@ class CreateFormScreen extends StatefulWidget {
 
 class _CreateFormScreenState extends State<CreateFormScreen> {
   ScrollController _scrollController = ScrollController();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Selector<SettingsStateModel, Color>(
@@ -26,7 +27,9 @@ class _CreateFormScreenState extends State<CreateFormScreen> {
       child: _child,
       builder: (context, backgroundColor, child) => Scaffold(
         backgroundColor: backgroundColor,
-        appBar: CreateFormAppBar(),
+        appBar: CreateFormAppBar(
+          onTapCreate: this._createForm,
+        ),
         body: Stack(fit: StackFit.expand, children: [
           child,
           Consumer<SettingsStateModel>(
@@ -48,12 +51,16 @@ class _CreateFormScreenState extends State<CreateFormScreen> {
           child: Align(
               alignment: Alignment.topCenter,
               child: Row(mainAxisSize: MainAxisSize.max, mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Container(
-                  alignment: Alignment.topCenter,
-                  width: 770,
-                  child: Consumer<FormStateModel>(
-                    child: FormTitle(id: 1),
-                    builder: (context, formStateModel, child) => Column(mainAxisSize: MainAxisSize.min, children: [child]..addAll(_fields)),
+                Form(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  key: _formKey,
+                  child: Container(
+                    alignment: Alignment.topCenter,
+                    width: 770,
+                    child: Consumer<FormStateModel>(
+                      child: FormTitle(),
+                      builder: (context, formStateModel, child) => Column(mainAxisSize: MainAxisSize.min, children: [child]..addAll(_fields)),
+                    ),
                   ),
                 ),
                 AddFormFieldToolbar(),
@@ -64,5 +71,13 @@ class _CreateFormScreenState extends State<CreateFormScreen> {
   List<Widget> get _fields {
     var formStateModel = Provider.of<FormStateModel>(context, listen: false);
     return formStateModel.formFieldConfiguration.map((e) => FormQuestionField(id: e.id, key: UniqueKey())).toList();
+  }
+
+  void _createForm() {
+    if (this._formKey.currentState.validate()) {
+      this._formKey.currentState.save();
+      var formModel = Provider.of<FormStateModel>(context, listen: false).formConfiguration;
+      print(formModel.toJson());
+    }
   }
 }

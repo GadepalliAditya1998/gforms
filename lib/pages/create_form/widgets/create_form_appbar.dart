@@ -1,9 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:gforms/models/state_models/form_state.dart';
 import 'package:gforms/models/state_models/settings_state.dart';
 import 'package:provider/provider.dart';
 import "package:universal_html/html.dart" as html;
 
 class CreateFormAppBar extends PreferredSize {
+  final VoidCallback onTapCreate;
+
+  CreateFormAppBar({this.onTapCreate});
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -16,11 +23,11 @@ class CreateFormAppBar extends PreferredSize {
             onPressed: () {
               Provider.of<SettingsStateModel>(context, listen: false).toggleColorPaletteFocus();
             }),
-        IconButton(tooltip: 'Preview form', icon: Icon(Icons.remove_red_eye_outlined), onPressed: this._previewForm),
+        IconButton(tooltip: 'Preview form', icon: Icon(Icons.remove_red_eye_outlined), onPressed: () => this._previewForm(context)),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () => this._createForm(context),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text('Create'),
@@ -31,8 +38,16 @@ class CreateFormAppBar extends PreferredSize {
     );
   }
 
-  void _previewForm() {
-    html.window.open('http://localhost:59369/#preview', '_blank');
+  void _createForm(BuildContext context) {
+    var formModel = Provider.of<FormStateModel>(context, listen: false).saveFormConfiguration();
+    print(jsonEncode(formModel.toJson()));
+  }
+
+  void _previewForm(BuildContext context) {
+    var formModel = Provider.of<FormStateModel>(context, listen: false).saveFormConfiguration();
+    print(jsonEncode(formModel.toJson()));
+    var baseUrl = html.window.location.origin;
+    html.window.open('$baseUrl/#preview', '_blank');
   }
 
   @override

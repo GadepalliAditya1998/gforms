@@ -63,8 +63,7 @@ class _MultipleCheckboxChoiceFormControlState extends State<MultipleCheckboxChoi
                 Flexible(
                   child: widget.isConfigMode
                       ? TextFormField(
-                          decoration: InputDecoration(
-                              hintText: 'Option', contentPadding: EdgeInsets.fromLTRB(0, 12, 0, 8), focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).primaryColor))),
+                          decoration: InputDecoration(hintText: 'Option', contentPadding: EdgeInsets.fromLTRB(0, 12, 0, 8), focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).primaryColor))),
                           style: Theme.of(context).textTheme.subtitle2,
                           onChanged: (String value) {
                             if (widget.onTitleUpdated != null) {

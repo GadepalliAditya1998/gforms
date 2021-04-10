@@ -1,40 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:gforms/models/state_models/form_state.dart';
 import 'package:gforms/widgets/shared/base_form_control_card_widget.dart';
+import 'package:gforms/widgets/shared/validators/validators.dart';
+import 'package:provider/provider.dart';
 
 class FormTitle extends StatefulWidget {
-  final int id;
-  FormTitle({Key key, this.id}) : super(key: key);
+  FormTitle({Key key}) : super(key: key);
 
   @override
   _FormTitleState createState() => _FormTitleState();
 }
 
 class _FormTitleState extends State<FormTitle> {
-  TextEditingController titleController;
-
   @override
   void initState() {
     super.initState();
-    titleController = TextEditingController(text: 'Untitled form');
   }
 
   @override
   Widget build(BuildContext context) {
+    var formConfig = Provider.of<FormStateModel>(context, listen: false).formConfiguration;
     return BaseFormWidget(
-      id: widget.id,
+      id: formConfig.id,
       isTopBorderEnabled: true,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           TextFormField(
+            initialValue: formConfig.name,
             style: TextStyle(fontSize: 32),
-            onTap: () {
-              titleController.selection = TextSelection(baseOffset: 0, extentOffset: titleController.text.length);
-            },
-            controller: titleController,
             decoration: InputDecoration(),
+            validator: (value) => validateIfEmpty(value, message: 'Title is required'),
+            autovalidateMode: AutovalidateMode.always,
+            onSaved: (title) {
+              formConfig.name = title;
+            },
           ),
-          TextFormField(style: TextStyle(fontSize: 14), decoration: InputDecoration(hintText: 'Form description'))
+          TextFormField(
+            initialValue: formConfig.description,
+            style: TextStyle(fontSize: 14),
+            decoration: InputDecoration(hintText: 'Form description'),
+            onSaved: (description) {
+              formConfig.description = description;
+            },
+          )
         ],
       ),
     );

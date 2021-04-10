@@ -14,14 +14,17 @@ class FormFieldTypeDropDown extends StatelessWidget {
       decoration: InputDecoration(border: OutlineInputBorder(), isDense: true, hintText: 'Select an option'),
       items: options,
       value: selectedValue,
+      validator: (value) {
+        return value == null ? "Select any field type" : null;
+      },
     );
   }
 
   List<DropdownMenuItem<FormFieldType>> _buildTypeMenu() {
     var list = [
       _getWidget(Icons.radio_button_checked_outlined, 'Multiple choices', FormFieldType.radios),
-      _getWidget(Icons.check_box, 'Checkboxes', FormFieldType.checkboxes),
-      _getWidget(Icons.arrow_drop_down_circle_outlined, 'Dropdown', FormFieldType.dropdown),
+      // _getWidget(Icons.check_box, 'Checkboxes', FormFieldType.checkboxes),
+      // _getWidget(Icons.arrow_drop_down_circle_outlined, 'Dropdown', FormFieldType.dropdown),
       _getWidget(Icons.short_text_outlined, 'Short Paragraph', FormFieldType.shortAnswer),
       _getWidget(Icons.reorder_outlined, 'Long Paragraph', FormFieldType.paragraph),
     ];
